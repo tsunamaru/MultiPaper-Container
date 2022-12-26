@@ -1,8 +1,8 @@
 name: Publish Docker Image
 
 env:
-  DOCKER_HUB_SERVER_REPO: akiicat/multipaper
-  DOCKER_HUB_MASTER_REPO: akiicat/multipaper-master
+  DOCKER_HUB_SERVER_REPO: noway13/multipaper
+  DOCKER_HUB_MASTER_REPO: noway13/multipaper-master
 
 on:
   push:
@@ -17,8 +17,14 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Log in to Docker Hub
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -41,19 +47,21 @@ jobs:
           echo "MASTER_TAG=${{ env.DOCKER_HUB_MASTER_REPO }}:${{ env.MASTER_VERSION }},${{ env.DOCKER_HUB_MASTER_REPO }}:latest" >> $GITHUB_ENV
 
       - name: Build Multipaper Master and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v3
         if: ${{ env.MASTER_DOCKERFILE != '' }}
         with:
           context: master
           push: true
           tags: ${{ env.MASTER_TAG }}
           labels: master
+          platforms: linux/amd64,linux/arm64
 
       - name: Build Multipaper Server and Push Docker Image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v3
         if: ${{ env.SERVER_DOCKERFILE != '' }}
         with:
           context: server
           push: true
           tags: ${{ env.SERVER_TAG }}
           labels: server
+          platforms: linux/amd64,linux/arm64

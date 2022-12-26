@@ -1,17 +1,17 @@
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/akiicat/MultiPaper-Container)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/akiicat/MultiPaper-Container/Publish%20Docker%20Image?label=Publish%20Docker%20Image)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/akiicat/MultiPaper-Container/Auto%20Check%20Latest%20Version?label=Auto%20Check%20Latest%20Version)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/tsunamaru/MultiPaper-Container)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tsunamaru/MultiPaper-Container/publish-docker-image.yaml?branch=main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tsunamaru/MultiPaper-Container/auto-check-latest-version.yaml?branch=main)
 
 # MultiPaper Container
 
 MultiPaper Container will automatically publish the latest MulitPaper containers to Docker Hub.
 
-- [MultiPaper Server Image](https://hub.docker.com/r/akiicat/multipaper)
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/akiicat/multipaper)
-![Docker Pulls](https://img.shields.io/docker/pulls/akiicat/multipaper)
-- [MultiPaper Master Image](https://hub.docker.com/r/akiicat/multipaper-master)
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/akiicat/multipaper-master)
-![Docker Pulls](https://img.shields.io/docker/pulls/akiicat/multipaper-master)
+- [MultiPaper Server Image](https://hub.docker.com/r/noway13/multipaper)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/noway13/multipaper)
+![Docker Pulls](https://img.shields.io/docker/pulls/noway13/multipaper)
+- [MultiPaper Master Image](https://hub.docker.com/r/noway13/multipaper-master)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/noway13/multipaper-master)
+![Docker Pulls](https://img.shields.io/docker/pulls/noway13/multipaper-master)
 
 ## What is MultiPaper
 
@@ -22,7 +22,7 @@ MultiPaper is a scalable minecraft server. [Here](https://github.com/PureGero/Mu
 ### Running MultiPaper Master
 
 ```shell
-docker run -d -p 35353:35353 akiicat/multipaper-master
+docker run -d -p 35353:35353 noway13/multipaper-master
 ```
 
 ### Running MultiPaper Server
@@ -35,7 +35,7 @@ docker run -d \
         -p 25565:25565 \
         -e EULA=true \
         -e JAVA_TOOL_OPTIONS="-Xmx1G -DmultipaperMasterAddress=<your_ip_address>:35353" \
-        akiicat/multipaper [server_options]
+        noway13/multipaper [server_options]
 ```
 
 Please changing `<your_ip_address>` in the previous command to your master ip address. For example,
@@ -45,7 +45,7 @@ docker run -d \
         -p 25565:25565 \
         -e EULA=true \
         -e JAVA_TOOL_OPTIONS="-Xmx1G -DmultipaperMasterAddress=192.168.0.193:35353" \
-        akiicat/multipaper --max-players 30
+        noway13/multipaper --max-players 30
 ```
 
 For MultiPaper server configurations, you can add them to the end of the command line.
@@ -56,13 +56,13 @@ For MultiPaper server configurations, you can add them to the end of the command
 You can execute the following command to get the latest options.
 
 ```shell
-docker run --rm akiicat/multipaper --help
+docker run --rm noway13/multipaper --help
 ```
 
 For example,
 
 ```shell
-$ docker run --rm akiicat/multipaper --help
+$ docker run --rm noway13/multipaper --help
 Downloading mojang_1.18.2.jar
 Applying patches
 Starting org.bukkit.craftbukkit.Main
@@ -156,20 +156,20 @@ Because both the server and the master are the same, we use the Multipaper Maste
 Run in foreground and clean up the container when it exits.
 
 ```shell
-docker run -ti --rm -p 35353:35353 akiicat/multipaper-master
+docker run -ti --rm -p 35353:35353 noway13/multipaper-master
 ```
 
 Use the existing world or save your world in the local directory. Your path must be an absolute path.
 
 ```shell
 mkdir -p $(pwd)/master
-docker run -d -p 35353:35353 -v $(pwd)/master:/app akiicat/multipaper-master
+docker run -d -p 35353:35353 -v $(pwd)/master:/app noway13/multipaper-master
 ```
 
-The default user is **multipaper** with uid 1000. You can also run as root, but this is not recommended.
+The default user is lowest-privileged **nobody** with uid 65535. You can also run as root, but this is not recommended.
 
 ```shell
-docker run -d -p 35353:35353 -u 0 akiicat/multipaper-master
+docker run -d -p 35353:35353 -e RUNASROOT noway13/multipaper-master
 ```
 
 Limit maximum memory
@@ -178,7 +178,7 @@ Limit maximum memory
 docker run -d \
         -p 35353:35353 \
         -e JAVA_TOOL_OPTIONS="-Xmx1G" \
-        akiicat/multipaper-master
+        noway13/multipaper-master
 ```
 
 Other Java configurations can also be added to `JAVA_TOOL_OPTIONS`.
@@ -186,8 +186,8 @@ Other Java configurations can also be added to `JAVA_TOOL_OPTIONS`.
 You can obtain the latest version of the MultiPaper Container by requesting the following command.
 
 ```shell
-SERVER_VERSION=$(curl https://raw.githubusercontent.com/akiicat/MultiPaper-Container/main/server/tags)
-MASTER_VERSION=$(curl https://raw.githubusercontent.com/akiicat/MultiPaper-Container/main/master/tags)
+SERVER_VERSION=$(curl https://raw.githubusercontent.com/tsunamaru/MultiPaper-Container/main/server/tags)
+MASTER_VERSION=$(curl https://raw.githubusercontent.com/tsunamaru/MultiPaper-Container/main/master/tags)
 echo $SERVER_VERSION
 echo $MASTER_VERSION
 ```
@@ -195,7 +195,7 @@ echo $MASTER_VERSION
 ## Build from source
 
 ```shell
-git clone https://github.com/akiicat/MultiPaper-Container.git
+git clone https://github.com/tsunamaru/MultiPaper-Container.git
 
 # change version
 # git checkout <tags>
@@ -221,7 +221,7 @@ docker logs <container_name_or_container_id> -f     # Follow log output
 Run a shell in a new container
 
 ```shell
-docker run -ti --rm--entrypoint /bin/sh akiicat/multipaper
+docker run -ti --rm--entrypoint /bin/sh noway13/multipaper
 ```
 
 Run a shell to an existing container
