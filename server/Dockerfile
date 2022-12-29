@@ -8,7 +8,7 @@ EXPOSE 25565/tcp
 WORKDIR /app
 CMD []
 
-ENTRYPOINT ["/run.sh", "/multipaper-1.19.2-4.jar"]
+ENTRYPOINT ["/run.sh", "/multipaper-1.19.2-5.jar"]
 
-ADD --chown=nobody:nogroup run.sh https://multipaper.io/api/v2/projects/multipaper/versions/1.19.2/builds/4/downloads/multipaper-1.19.2-4.jar /
+ADD --chown=nobody:nogroup run.sh https://multipaper.io/api/v2/projects/multipaper/versions/1.19.2/builds/5/downloads/multipaper-1.19.2-5.jar /
 
