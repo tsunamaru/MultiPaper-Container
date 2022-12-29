@@ -10,5 +10,5 @@ CMD []
 
 ENTRYPOINT ["/run.sh", "/MultiPaper-Master-2.1.3.jar"]
 
-ADD --chown=nobody:nogroup run.sh https://multipaper.io/api/v2/projects/multipaper/versions/1.18.1/builds/30/downloads/MultiPaper-Master-2.1.3.jar /
+ADD --chown=nobody:nogroup run.sh https://multipaper.io/api/v2/projects/multipaper/versions/1.18.1/builds/31/downloads/MultiPaper-Master-2.1.3.jar /
 
